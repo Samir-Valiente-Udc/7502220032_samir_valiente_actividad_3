@@ -78,7 +78,7 @@ spring.jpa.hibernate.ddl-auto=update
 ```
 
 ### 🚀 Ejecución
-1. Clonar repositorio: `git clone`
+1. Clonar repositorio: `git clone https://github.com/Samir-Valiente-Udc/7502220032_samir_valiente_actividad_3.git`
 2. Crear base de datos MySQL
 3. Configurar credenciales en `application.properties`
 4. Ejecutar: `mvn spring-boot:run`
