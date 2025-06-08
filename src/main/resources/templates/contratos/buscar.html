@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscar Contrato</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Buscar Contrato</h2>
+
+<div th:if="${usuarioSesion == null}">
+    <p>Debes <a th:href="@{/login}">iniciar sesión</a> para acceder.</p>
+    <p><a th:href="@{/}">Volver al inicio</a></p>
+    <script>document.body.innerHTML = '';</script>
+</div>
+
+<div th:if="${mensaje}" class="info" th:text="${mensaje}"></div>
+<div th:if="${error}" class="error" th:text="${error}"></div>
+
+<form th:action="@{/contratos/buscar}" method="post" th:object="${contratoBusqueda}">
+    <div>
+        <label for="id">Buscar por ID:</label>
+        <input type="number" id="id" name="id" th:field="*{id}" />
+    </div>
+    <div>
+        <span>O</span>
+    </div>
+    <div>
+        <label for="empresa">Buscar por Nombre de Empresa:</label>
+        <input type="text" id="empresa" name="empresa" th:field="*{empresa}" />
+    </div>
+    <div>
+        <button type="submit">Buscar</button>
+    </div>
+</form>
+
+<div th:if="${contratoEncontrado != null}">
+    <h3>Resultado de la Búsqueda (ID):</h3>
+    <table border="1">
+        <tr><th>ID</th><td th:text="${contratoEncontrado.id}"></td></tr>
+        <tr><th>Empresa</th><td th:text="${contratoEncontrado.empresa}"></td></tr>
+        <tr><th>Empleado</th><td th:text="${contratoEncontrado.empleado != null ? contratoEncontrado.empleado.nombre : 'N/A'}"></td></tr>
+        <tr><th>Fecha Inicio</th><td th:text="${#dates.format(contratoEncontrado.fechaInicio, 'dd-MM-yyyy')}"></td></tr>
+        <tr><th>Fecha Fin</th><td th:text="${contratoEncontrado.fechaFin != null ? #dates.format(contratoEncontrado.fechaFin, 'dd-MM-yyyy') : 'Indefinido'}"></td></tr>
+        <tr><td colspan="2"><a th:href="@{/contratos/editar/{id}(id=${contratoEncontrado.id})}">Editar este contrato</a></td></tr>
+    </table>
+</div>
+
+<div th:if="${contratosEncontradosLista != null and not #lists.isEmpty(contratosEncontradosLista)}">
+    <h3>Resultados de la Búsqueda (Empresa):</h3>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Empresa</th>
+            <th>Empleado</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c : ${contratosEncontradosLista}">
+            <td th:text="${c.id}"></td>
+            <td th:text="${c.empresa}"></td>
+            <td th:text="${c.empleado != null ? c.empleado.nombre : 'N/A'}"></td>
+            <td th:text="${#dates.format(c.fechaInicio, 'dd-MM-yyyy')}"></td>
+            <td th:text="${c.fechaFin != null ? #dates.format(c.fechaFin, 'dd-MM-yyyy') : 'Indefinido'}"></td>
+            <td><a th:href="@{/contratos/editar/{id}(id=${c.id})}">Editar</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<p><a th:href="@{/contratos/}">Volver a Gestión de Contratos</a></p>
+</body>
+</html>

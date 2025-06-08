@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Contratos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1>Gestión de Contratos</h1>
+<div th:if="${session.usuarioSesion == null}">
+    <p>Debes <a th:href="@{/login}">iniciar sesión</a> para acceder a esta sección.</p>
+    <p><a th:href="@{/}">Volver al inicio</a></p>
+    <script>document.body.innerHTML = '';</script> </div>
+
+<nav>
+    <ul>
+        <li><a th:href="@{/contratos/agregar}">Agregar Contrato</a></li> <li><a th:href="@{/contratos/buscar}">Buscar Contrato</a></li> <li><a th:href="@{/contratos/listar}">Listar Contratos</a></li> </ul>
+</nav>
+<p><a th:href="@{/}">Volver al menú principal</a></p>
+</body>
+</html>

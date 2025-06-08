@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Eliminar Contrato</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Confirmar Eliminar Contrato</h2> <div th:if="${session.usuarioSesion == null}">
+    <p>Debes <a th:href="@{/login}">iniciar sesión</a> para acceder.</p>
+    <p><a th:href="@{/}">Volver al inicio</a></p>
+    <script>document.body.innerHTML = '';</script>
+</div>
+
+<div th:if="${mensaje}" class="info" th:text="${mensaje}"></div>
+<div th:if="${error}" class="error" th:text="${error}"></div>
+
+<div th:if="${contratoAEliminar}">
+    <p>¿Estás seguro de que deseas eliminar el siguiente contrato?</p>
+    <p><strong>ID:</strong> <span th:text="${contratoAEliminar.id}"></span></p>
+    <p><strong>Empresa:</strong> <span th:text="${contratoAEliminar.empresa}"></span></p>
+    <p><strong>Empleado:</strong> <span th:text="${contratoAEliminar.empleado != null ? contratoAEliminar.empleado.nombre : 'N/A'}"></span></p>
+    <p><strong>Fecha Inicio:</strong> <span th:text="${#dates.format(contratoAEliminar.fechaInicio, 'dd-MM-yyyy')}"></span></p>
+
+    <form th:action="@{/contratos/eliminar/{id}(id=${contratoAEliminar.id})}" method="get"> <button type="submit">Confirmar Eliminación</button>
+    </form>
+</div>
+<div th:unless="${contratoAEliminar}">
+    <p>No se ha especificado un contrato para eliminar o ya fue procesado.</p>
+</div>
+
+<p><a th:href="@{/contratos/listar}">Cancelar y Volver al Listado</a></p>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Aplicación MVC</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1>Bienvenido a la Aplicación de Gestión</h1>
+<div th:if="${usuarioSesion == null}">
+    <p><a th:href="@{/login}">Iniciar Sesión</a></p>
+</div>
+<div th:if="${usuarioSesion != null}">
+    <p>Hola, <span th:text="${usuarioSesion.nombre}"></span>!</p>
+    <nav>
+        <ul>
+            <li><a th:href="@{/usuarios/}">Gestión de Usuarios</a></li>
+            <li><a th:href="@{/contratos/}">Gestión de Contratos</a></li>
+            <li><a th:href="@{/logout}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

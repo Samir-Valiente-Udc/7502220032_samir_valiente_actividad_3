@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Usuarios</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Listado de Usuarios</h2>
+<div th:if="${usuarioSesion == null}">
+    <p>Debes <a th:href="@{/login}">iniciar sesión</a> para acceder a esta sección.</p>
+    <p><a th:href="@{/}">Volver al inicio</a></p>
+    return;
+</div>
+
+<div th:if="${mensaje}" class="info" th:text="${mensaje}"></div>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="usuario : ${usuarios}">
+        <td th:text="${usuario.id}"></td>
+        <td th:text="${usuario.username}"></td>
+        <td th:text="${usuario.nombre}"></td>
+        <td th:text="${usuario.email}"></td>
+        <td>
+            <a th:href="@{/usuarios/editar/{id}(id=${usuario.id})}">Editar</a>
+            |
+            <a th:href="@{/usuarios/eliminar_confirmar/{id}(id=${usuario.id})}">Eliminar</a>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(usuarios)}">
+        <td colspan="5">No hay usuarios para mostrar.</td>
+    </tr>
+    </tbody>
+</table>
+<p><a th:href="@{/usuarios/agregar}">Agregar Nuevo Usuario</a></p>
+<p><a th:href="@{/usuarios/}">Volver a Gestión de Usuarios</a></p>
+</body>
+</html>

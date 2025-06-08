@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Contratos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Listado de Contratos</h2> <div th:if="${session.usuarioGlobal == null}">
+    <p>Debes <a th:href="@{/login}">iniciar sesión</a> para acceder.</p>
+    <p><a th:href="@{/}">Volver al inicio</a></p>
+    <script>document.body.innerHTML = '';</script>
+</div>
+
+<div th:if="${mensaje}" class="info" th:text="${mensaje}"></div>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Empresa</th>
+        <th>Empleado</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Fin</th>
+        <th>Monto</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="contrato : ${contratos}">
+        <td th:text="${contrato.id}"></td>
+        <td th:text="${contrato.empresa}"></td>
+        <td th:text="${contrato.empleado != null ? contrato.empleado.nombre : 'N/A'}"></td>
+        <td th:text="${#dates.format(contrato.fechaInicio, 'dd-MM-yyyy')}"></td>
+        <td th:text="${contrato.fechaFin != null ? #dates.format(contrato.fechaFin, 'dd-MM-yyyy') : 'Indefinido'}"></td>
+        <td th:text="${#numbers.formatDecimal(contrato.monto, 1, 'POINT', 2, 'COMMA')}"></td>
+        <td>
+            <a th:href="@{/contratos/editar/{id}(id=${contrato.id})}">Editar</a>
+            |
+            <a th:href="@{/contratos/eliminar_confirmar/{id}(id=${contrato.id})}">Eliminar</a>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(contratos)}">
+        <td colspan="7">No hay contratos para mostrar.</td>
+    </tr>
+    </tbody>
+</table>
+<p><a th:href="@{/contratos/agregar}">Agregar Nuevo Contrato</a></p>
+<p><a th:href="@{/contratos/}">Volver a Gestión de Contratos</a></p>
+</body>
+</html>

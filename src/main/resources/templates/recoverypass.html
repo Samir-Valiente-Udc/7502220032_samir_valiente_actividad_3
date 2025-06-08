@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Recuperar Contraseña</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Recuperar Contraseña</h2>
+<div th:if="${mensaje}" th:class="${tipoMensaje == 'error'} ? 'error' : 'info'" th:text="${mensaje}"></div>
+
+<form th:action="@{/recovery-password}" method="post">
+    <div>
+        <label for="username">Usuario (Cédula):</label>
+        <input type="text" id="username" name="username" required/>
+    </div>
+    <div>
+        <label for="preguntaSeguridad">Pregunta de Seguridad:</label>
+        <input type="text" id="preguntaSeguridad" name="preguntaSeguridad" placeholder="Ej: ¿Nombre de tu primera mascota?" required/>
+    </div>
+    <div>
+        <label for="respuestaSeguridad">Respuesta:</label>
+        <input type="text" id="respuestaSeguridad" name="respuestaSeguridad" required/>
+    </div>
+    <div>
+        <button type="submit">Recordar Contraseña</button>
+    </div>
+</form>
+
+<div th:if="${passwordRecuperada}">
+    <h4>Información Recuperada:</h4>
+    <p th:text="${passwordRecuperada}"></p>
+    <p>Serás redirigido al login en unos segundos...</p>
+    <script th:inline="javascript">
+        setTimeout(function(){
+            window.location.href = /*[[@{/login}]]*/ '/login';
+        }, 5000); // 5 segundos
+    </script>
+</div>
+<p><a th:href="@{/login}">Volver a Iniciar Sesión</a></p>
+</body>
+</html>

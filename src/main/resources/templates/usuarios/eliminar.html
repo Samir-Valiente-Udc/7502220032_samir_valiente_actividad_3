@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Eliminar Usuario</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Confirmar Eliminar Usuario</h2>
+<div th:if="${session.usuarioSesion == null}">
+    <p>Debes <a th:href="@{/login}">iniciar sesión</a> para acceder.</p>
+    <p><a th:href="@{/}">Volver al inicio</a></p>
+    <script>document.body.innerHTML = '';</script>
+</div>
+
+<div th:if="${mensaje}" class="info" th:text="${mensaje}"></div>
+<div th:if="${error}" class="error" th:text="${error}"></div>
+
+<div th:if="${usuarioAEliminar}">
+    <p>¿Estás seguro de que deseas eliminar al siguiente usuario?</p>
+    <p><strong>ID:</strong> <span th:text="${usuarioAEliminar.id}"></span></p>
+    <p><strong>Username:</strong> <span th:text="${usuarioAEliminar.username}"></span></p>
+    <p><strong>Nombre:</strong> <span th:text="${usuarioAEliminar.nombre}"></span></p>
+
+    <form th:action="@{/usuarios/eliminar/{id}(id=${usuarioAEliminar.id})}" method="get"> <button type="submit">Confirmar Eliminación</button>
+    </form>
+</div>
+<div th:unless="${usuarioAEliminar}">
+    <p>No se ha especificado un usuario para eliminar o ya fue procesado.</p>
+</div>
+
+<p><a th:href="@{/usuarios/listar}">Cancelar y Volver al Listado</a></p>
+</body>
+</html>
